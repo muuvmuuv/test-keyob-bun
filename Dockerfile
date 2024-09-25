@@ -8,7 +8,7 @@ RUN bun install --production --frozen-lockfile
 
 RUN bun build --compile --outfile=eyli src/index.ts
 
-FROM alpine
+FROM oven/bun:1.1.29-alpine
 
 COPY --from=builder /app/eyli /
 
