@@ -1,12 +1,19 @@
-FROM oven/bun:1.1.29-alpine
+FROM oven/bun:1.1.29-alpine as builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN bun install
+RUN bun install --production --frozen-lockfile
+
+RUN bun build --compile --outfile=eyli src/index.ts
+
+FROM scratch
+
+COPY --from=builder /app/eyli /eyli
+RUN chmod +x /eyli
 
 ARG PORT
 EXPOSE ${PORT:-3000}
 
-CMD ["bun", "src/index.ts"]
+CMD ["/eyli"]
