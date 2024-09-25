@@ -10,8 +10,7 @@ RUN bun build --compile --outfile=eyli src/index.ts
 
 FROM scratch
 
-COPY --from=builder /app/eyli /eyli
-RUN chmod +x /eyli
+COPY --from=builder /app/eyli /
 
 ARG PORT
 EXPOSE ${PORT:-3000}
